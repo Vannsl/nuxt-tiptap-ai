@@ -4,7 +4,7 @@ import AppFooter from "../components/AppFooter.vue";
 
 <template>
   <div class="min-h-100 flex space-between">
-    <main>
+    <main class="container px-6 pb-8 pt-6 lg:px-8 mx-auto">
       <slot />
     </main>
     <AppFooter />
