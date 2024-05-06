@@ -14,6 +14,13 @@ export const suggestions = () => {
 
       items.push(
         {
+          title: "Ask AI",
+          slug: "ai",
+          command: ({ editor, range }: { editor: Editor; range: Range }) => {
+            editor.chain().deleteRange(range).setAiChatCompletion().run();
+          },
+        },
+        {
           title: "Text",
           slug: "paragraph",
           command: ({ editor, range }: { editor: Editor; range: Range }) => {

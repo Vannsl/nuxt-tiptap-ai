@@ -1,0 +1,1 @@
+export const MAX_PROMPT_TOKEN_LENGTH = 1500;

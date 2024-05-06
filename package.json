@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@tiptap/core": "^2.3.1",
     "@tiptap/extension-bubble-menu": "^2.3.1",
     "@tiptap/extension-document": "^2.3.1",
@@ -21,7 +22,9 @@
     "@tiptap/starter-kit": "^2.3.1",
     "@tiptap/suggestion": "^2.3.1",
     "@tiptap/vue-3": "^2.3.1",
+    "dayjs": "^1.11.11",
     "nuxt": "^3.11.2",
+    "openai": "^4.42.0",
     "tippy.js": "^6.3.7",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch } from "vue";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import { initializeExtensions } from "./utils/initializeExtensions";
 import BubbleMenu from "./components/BubbleMenu.vue";
@@ -26,7 +25,7 @@ watch(model, (value) => {
     return;
   }
 
-  editor.value.commands.setContent(value, false);
+  // editor.value.commands.setContent(value, false);
 });
 </script>
 
@@ -43,9 +42,58 @@ watch(model, (value) => {
 }
 
 .v-editor :deep(h1) {
-  font-size: 2rem;
-  line-height: 1.6;
-  font-weight: 600;
+  @apply text-7xl font-semibold mb-4;
+}
+
+.v-editor :deep(h2) {
+  @apply text-4xl font-semibold mb-2;
+}
+
+.v-editor :deep(h3) {
+  @apply text-3xl font-semibold mb-1;
+}
+
+.v-editor :deep(h4) {
+  @apply text-2xl font-semibold mb-1;
+}
+
+.v-editor :deep(h5) {
+  @apply text-xl font-semibold mb-1;
+}
+
+.v-editor :deep(h6) {
+  @apply text-lg font-semibold mb-1;
+}
+
+.v-editor :deep(hr) {
+  @apply my-1;
+}
+
+.v-editor :deep(ul) {
+  margin-left: 1rem;
+  list-style-type: disc;
+}
+
+.v-editor :deep(ol) {
+  margin-left: 1rem;
+  list-style-type: decimal;
+}
+
+.v-editor :deep(strong) {
+  @apply font-bold;
+}
+
+.v-editor :deep(pre) {
+  @apply p-4;
+  @apply bg-gray-50;
+  @apply rounded-lg;
+}
+
+.v-editor :deep(blockquote) {
+  @apply border-gray-800;
+  @apply pl-4;
+
+  border-left-width: 3px;
 }
 
 .v-editor {
