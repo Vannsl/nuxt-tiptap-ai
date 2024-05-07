@@ -71,7 +71,7 @@ import FooterSocialLink from "./FooterSocialLink.vue";
         <p
           class="mt-8 text-xs leading-5 text-gray-400 md:order-1 md:mt-0 text-center"
         >
-          &copy; 2022-2024 Vanessa Otto
+          &copy; 2023-2024 Vanessa Otto
         </p>
         <p
           class="mt-8 text-xs leading-5 text-gray-400 md:order-2 md:mt-0 text-center"
