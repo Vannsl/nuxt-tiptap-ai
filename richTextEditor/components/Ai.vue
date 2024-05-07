@@ -7,7 +7,6 @@ import { getLastWordsWithMaxChars } from "../utils/getLastWordsWithMaxChars";
 type Output = {
   text: string;
   timestamp: Date;
-  feedbackId: number;
 };
 
 const ACTION_SLUGS: string[] = [
@@ -84,31 +83,27 @@ function deleteNodeAndFocus() {
   props.editor.commands.focus();
 }
 
-function insertContentAndDeleteNode(text: string) {
+function insertContentAndDeleteNode() {
   // inserts AI content directly before this node.
   props.editor
     .chain()
     .focus()
-    .insertContentAt(props.editor.state.selection.$anchor.pos, text, {
-      updateSelection: true,
-      parseOptions: {
-        preserveWhitespace: "full",
-      },
-    })
+    .insertContentAt(
+      props.editor.state.selection.$anchor.pos,
+      latestOutput.value!.text,
+      {
+        updateSelection: true,
+        parseOptions: {
+          preserveWhitespace: "full",
+        },
+      }
+    )
     .run();
 
   deleteNodeAndFocus();
 }
 
-/**
- * Adds a new item to the output list, and removes the first item if the list already has more than two items.
- * Users can go back in history once.
- * @param output - The output to be added to the list.
- */
-function pushOutput(
-  { text, timestamp, feedbackId }: Output,
-  method: ActionMethod
-) {
+function handleResponse(text: string, method: ActionMethod = "replace") {
   if (outputList.value.length >= 2) {
     outputList.value.shift();
   }
@@ -128,27 +123,9 @@ function pushOutput(
       break;
   }
   outputList.value.push({
-    timestamp,
+    timestamp: timestamp.value || new Date(),
     text: outputText,
-    feedbackId,
   });
-}
-
-function handleResponse(
-  response: { text: string; feedback_id: number } | undefined,
-  method: ActionMethod = "replace"
-) {
-  if (!response) {
-    throw "Response is empty";
-  }
-  pushOutput(
-    {
-      text: response.text,
-      timestamp: timestamp.value || new Date(),
-      feedbackId: response.feedback_id,
-    },
-    method
-  );
 }
 
 const isLoading = ref(false);
@@ -157,18 +134,20 @@ async function executeActionCompletionPrompt(
   agentUuid: string,
   method: ActionMethod
 ) {
+  isLoading.value = true;
   timestamp.value = new Date();
   try {
-    const { data, pending, error, execute } = await useFetch("/api/ai", {
+    const data: string = await $fetch("/api/ai", {
       method: "POST",
       body: { prompt },
     });
-    console.log(data);
 
-    //handleResponse(data, method);
+    handleResponse(data, method);
   } catch (err) {
     // Toast
     console.error(err);
+  } finally {
+    isLoading.value = false;
   }
 }
 
@@ -211,7 +190,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <NodeViewWrapper class="relative w-full" @keydown.esc="deleteNodeAndFocus">
+  <NodeViewWrapper
+    class="relative w-full my-2"
+    @keydown.esc="deleteNodeAndFocus"
+  >
     <div
       ref="inputWrapperElement"
       class="w-full p-4 rounded-lg border border-gray-200"
@@ -224,7 +206,6 @@ onMounted(async () => {
         v-else-if="latestOutput"
         :key="latestOutput.timestamp.toString()"
         :text="latestOutput.text"
-        :feedback-id="latestOutput.feedbackId"
         :should-show-undo-action="outputList.length > 1"
         :should-show-shortening-action="latestOutput.text.length > 40"
         :should-show-enrichment-action="
@@ -235,6 +216,7 @@ onMounted(async () => {
         @on-discard-click="deleteNodeAndFocus"
       />
       <AiInput
+        v-else
         @on-submit="
           (val: string) => executeAction('simplyPromptRelay', val)
         "

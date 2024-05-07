@@ -5,7 +5,7 @@ import FooterSocialLink from "./FooterSocialLink.vue";
 <template>
   <footer
     aria-labelledby="footer-heading"
-    class="fixed bottom-0 left-0 right-0 border-t"
+    class="fixed bottom-0 left-0 right-0 border-t bg-white"
   >
     <h2 id="footer-heading" class="sr-only">Footer</h2>
     <div class="mx-auto max-w-7xl px-6 pb-8 pt-6 lg:px-8">

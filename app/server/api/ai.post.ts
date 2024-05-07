@@ -15,7 +15,7 @@ const exampleResponse = {
       index: 0,
       message: {
         content:
-          "The 2020 World Series was played in Texas at Globe Life Field in Arlington.",
+          "The 2020 World Series was played in Texas at Globe Life Field in Arlington.<ul><li>Test</li></ul>",
         role: "assistant",
       },
       logprobs: null,
@@ -34,8 +34,7 @@ const exampleResponse = {
 
 export default defineEventHandler(async (event) => {
   const body: { prompt: { text: string } } = await readBody(event);
-  await sleep(2000);
-  // MOCK RESPONSE TO OPEN AI
+  await sleep(4000);
 
   // const response = await openai.chat.completions.create({
   //   model: "gpt-3.5-turbo",
@@ -50,7 +49,7 @@ export default defineEventHandler(async (event) => {
   //       content: body.prompt.text,
   //     },
   //   ],
-  //   temperature: 0.7,
+  //   temperature: 0,
   //   max_tokens: 64,
   //   top_p: 1,
   // });
