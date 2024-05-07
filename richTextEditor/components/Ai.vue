@@ -23,7 +23,7 @@ type Action = {
     text: string,
     targetLanguage?: string
   ) => Record<string, string>;
-  agentUuid: string;
+  promptType: string;
   method: ActionMethod;
 };
 const actions: Record<ActionSlug, Action> = {
@@ -31,22 +31,22 @@ const actions: Record<ActionSlug, Action> = {
     createPrompt: (text: string) => ({
       text,
     }),
-    agentUuid: "chatCompletion",
+    promptType: "chatCompletion",
     method: "append",
   },
   followUp: {
     createPrompt: (text: string) => ({ text: getLastWordsWithMaxChars(text) }),
-    agentUuid: "followUp",
+    promptType: "followUp",
     method: "append",
   },
   shortening: {
     createPrompt: (text: string) => ({ text }),
-    agentUuid: "shortening",
+    promptType: "shortening",
     method: "replace",
   },
   enrichment: {
     createPrompt: (text: string) => ({ text }),
-    agentUuid: "enrichment",
+    promptType: "enrichment",
     method: "replace",
   },
   translation: {
@@ -54,7 +54,7 @@ const actions: Record<ActionSlug, Action> = {
       text,
       language: targetLanguage || "en",
     }),
-    agentUuid: "translation",
+    promptType: "translation",
     method: "replace",
   },
 };
@@ -131,7 +131,7 @@ function handleResponse(text: string, method: ActionMethod = "replace") {
 const isLoading = ref(false);
 async function executeActionCompletionPrompt(
   prompt: Record<string, string>,
-  agentUuid: string,
+  promptType: string,
   method: ActionMethod
 ) {
   isLoading.value = true;
@@ -154,7 +154,7 @@ async function executeActionCompletionPrompt(
 async function executeAction(slug: ActionSlug, text: string): Promise<void> {
   const config = actions[slug];
   const prompt = config.createPrompt(text);
-  await executeActionCompletionPrompt(prompt, config.agentUuid, config.method);
+  await executeActionCompletionPrompt(prompt, config.promptType, config.method);
 }
 
 async function handleAdjustment(slug: ActionSlug | string): Promise<void> {
@@ -179,7 +179,7 @@ async function handleTranslation(targetLanguage: string): Promise<void> {
     latestOutput.value?.text || "",
     targetLanguage
   );
-  await executeActionCompletionPrompt(prompt, config.agentUuid, config.method);
+  await executeActionCompletionPrompt(prompt, config.promptType, config.method);
 }
 const inputWrapperElement = ref<HTMLElement | null>(null);
 onMounted(async () => {
