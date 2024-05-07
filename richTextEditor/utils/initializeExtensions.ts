@@ -5,7 +5,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import BubbleMenu from "@tiptap/extension-bubble-menu";
 import Document from "@tiptap/extension-document";
-import { AiExtension } from "../extensions/ai/extension";
+import { AiExtension } from "./extensionAi";
 
 const CustomDocument = Document.extend({
   content: "heading block*",

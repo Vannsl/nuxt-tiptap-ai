@@ -1,37 +1,12 @@
 {
-  "name": "nuxt-app",
-  "private": true,
-  "type": "module",
+  "name": "vanessa-otto-tiptap-ai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "@tailwindcss/forms": "^0.5.7",
-    "@tiptap/core": "^2.3.1",
-    "@tiptap/extension-bubble-menu": "^2.3.1",
-    "@tiptap/extension-document": "^2.3.1",
-    "@tiptap/extension-focus": "^2.3.1",
-    "@tiptap/extension-link": "^2.3.1",
-    "@tiptap/extension-placeholder": "^2.3.1",
-    "@tiptap/extension-underline": "^2.3.1",
-    "@tiptap/pm": "^2.3.1",
-    "@tiptap/starter-kit": "^2.3.1",
-    "@tiptap/suggestion": "^2.3.1",
-    "@tiptap/vue-3": "^2.3.1",
-    "dayjs": "^1.11.11",
-    "nuxt": "^3.11.2",
-    "openai": "^4.42.0",
-    "tippy.js": "^6.3.7",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

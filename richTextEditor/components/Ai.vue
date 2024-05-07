@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from "@tiptap/vue-3";
 import dayjs from "dayjs";
-import { MAX_PROMPT_TOKEN_LENGTH } from "../../constants/maxPromptLength";
-import { getLastWordsWithMaxChars } from "../../utils/getLastWordsWithMaxChars";
-import AiInput from "./AiInput.vue";
-import AiLoading from "./AiLoading.vue";
-import AiOutput from "./AiOutput.vue";
+import { MAX_PROMPT_TOKEN_LENGTH } from "../constants/maxPromptLength";
+import { getLastWordsWithMaxChars } from "../utils/getLastWordsWithMaxChars";
 
 type Output = {
   text: string;

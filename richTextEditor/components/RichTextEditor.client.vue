@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useEditor, EditorContent } from "@tiptap/vue-3";
-import { initializeExtensions } from "./utils/initializeExtensions";
-import BubbleMenu from "./components/BubbleMenu.vue";
+import { initializeExtensions } from "../utils/initializeExtensions";
+import BubbleMenu from "./BubbleMenu.vue";
 
 const model = defineModel<string>({ required: true });
 

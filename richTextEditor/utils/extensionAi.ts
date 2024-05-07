@@ -1,7 +1,7 @@
 import { mergeAttributes, Node } from "@tiptap/core";
 import { VueNodeViewRenderer } from "@tiptap/vue-3";
-import { attributeClientOnly } from "../../constants/attribute";
-import Ai from "./Ai.vue";
+import { attributeClientOnly } from "../constants/attribute";
+import Ai from "../components/Ai.vue";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
