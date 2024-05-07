@@ -2,6 +2,7 @@
 import sanitizeHtml from "sanitize-html";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import {
+  MicrophoneIcon,
   BackspaceIcon,
   CheckCircleIcon,
   ChevronDownIcon,
@@ -13,10 +14,14 @@ import {
 
 const props = defineProps<{
   text: string;
+  showUndoAction: boolean;
+  showShorteningAction: boolean;
+  showEnrichmentAction: boolean;
 }>();
 
 defineEmits<{
   (e: "onInsertClick"): void;
+  (e: "onAdjustmentClick", value: string): void;
   (e: "onDiscardClick"): void;
 }>();
 
@@ -66,38 +71,44 @@ const sanitizedText = computed(() => sanitizeHtml(props.text));
                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                   'group flex items-center px-4 py-2 text-sm',
                 ]"
+                class="w-full"
+                @click="$emit('onAdjustmentClick', 'followUp')"
               >
                 <PencilSquareIcon
                   class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                   aria-hidden="true"
                 />
-                Continue writing
+                Continue writing...
               </button>
             </MenuItem>
           </div>
           <div class="py-1">
-            <MenuItem v-slot="{ active }">
+            <MenuItem v-slot="{ active }" v-show="showEnrichmentAction">
               <button
                 type="button"
                 :class="[
                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                   'group flex items-center px-4 py-2 text-sm',
                 ]"
+                class="w-full"
+                @click="$emit('onAdjustmentClick', 'enrichment')"
               >
                 <PlusCircleIcon
                   class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                   aria-hidden="true"
                 />
-                Write with more details
+                Enrich
               </button>
             </MenuItem>
-            <MenuItem v-slot="{ active }">
+            <MenuItem v-slot="{ active }" v-show="showShorteningAction">
               <button
                 type="button"
                 :class="[
                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                   'group flex items-center px-4 py-2 text-sm',
                 ]"
+                class="w-full"
+                @click="$emit('onAdjustmentClick', 'shorten')"
               >
                 <MinusCircleIcon
                   class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
@@ -108,6 +119,13 @@ const sanitizedText = computed(() => sanitizeHtml(props.text));
             </MenuItem>
           </div>
           <div class="py-1">
+            <div class="flex items-center px-4 py-2 text-sm text-gray-700">
+              <MicrophoneIcon
+                class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                aria-hidden="true"
+              />
+              Change tone
+            </div>
             <MenuItem v-slot="{ active }">
               <button
                 type="button"
@@ -115,12 +133,84 @@ const sanitizedText = computed(() => sanitizeHtml(props.text));
                   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                   'group flex items-center px-4 py-2 text-sm',
                 ]"
+                class="w-full pl-12"
+                @click="$emit('onAdjustmentClick', 'tone_professional')"
               >
-                <LanguageIcon
-                  class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                  aria-hidden="true"
-                />
-                Translate
+                Professional
+              </button>
+            </MenuItem>
+            <MenuItem v-slot="{ active }">
+              <button
+                type="button"
+                :class="[
+                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                  'group flex items-center px-4 py-2 text-sm',
+                ]"
+                class="w-full pl-12"
+                @click="$emit('onAdjustmentClick', 'tone_friendly')"
+              >
+                Friendly
+              </button>
+            </MenuItem>
+            <MenuItem v-slot="{ active }">
+              <button
+                type="button"
+                :class="[
+                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                  'group flex items-center px-4 py-2 text-sm',
+                ]"
+                class="w-full pl-12"
+                @click="$emit('onAdjustmentClick', 'tone_straightforward')"
+              >
+                Straightforward
+              </button>
+            </MenuItem>
+          </div>
+          <div class="py-1">
+            <div class="flex items-center px-4 py-2 text-sm text-gray-700">
+              <LanguageIcon
+                class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                aria-hidden="true"
+              />
+              Translate into
+            </div>
+            <MenuItem v-slot="{ active }">
+              <button
+                type="button"
+                :class="[
+                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                  'group flex items-center px-4 py-2 text-sm',
+                ]"
+                class="w-full pl-12"
+                @click="$emit('onAdjustmentClick', 'translate_english')"
+              >
+                English
+              </button>
+            </MenuItem>
+            <MenuItem v-slot="{ active }">
+              <button
+                type="button"
+                :class="[
+                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                  'group flex items-center px-4 py-2 text-sm',
+                ]"
+                class="w-full pl-12"
+                @click="$emit('onAdjustmentClick', 'translate_german')"
+              >
+                German
+              </button>
+            </MenuItem>
+            <MenuItem v-slot="{ active }">
+              <button
+                type="button"
+                :class="[
+                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                  'group flex items-center px-4 py-2 text-sm',
+                ]"
+                class="w-full pl-12"
+                @click="$emit('onAdjustmentClick', 'translate_french')"
+              >
+                French
               </button>
             </MenuItem>
           </div>

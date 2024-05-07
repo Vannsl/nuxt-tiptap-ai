@@ -5,9 +5,9 @@
   </header>
   <p class="mb-4">
     This page was built by Vanessa Otto.
-    <ImprintLink href="https://www.vannsl.io/imprint"
-      >See here for the imprint of vannsl.io</ImprintLink
-    >
+    <ImprintLink href="https://www.vannsl.io/imprint">
+      Click here for the imprint of vannsl.io
+    </ImprintLink>
   </p>
   <p class="mb-2">
     I would like to express our sincere gratitude to the following open-source

@@ -13,6 +13,7 @@ const ACTION_SLUGS: string[] = [
   "chatCompletion",
   "followUp",
   "shortening",
+  "tone",
   "enrichment",
   "translation",
 ];
@@ -21,13 +22,14 @@ type ActionMethod = "replace" | "append";
 type Action = {
   createPrompt: (
     text: string,
+    targetTone?: string,
     targetLanguage?: string
   ) => Record<string, string>;
   promptType: string;
   method: ActionMethod;
 };
 const actions: Record<ActionSlug, Action> = {
-  simplyPromptRelay: {
+  chatCompletion: {
     createPrompt: (text: string) => ({
       text,
     }),
@@ -47,6 +49,14 @@ const actions: Record<ActionSlug, Action> = {
   enrichment: {
     createPrompt: (text: string) => ({ text }),
     promptType: "enrichment",
+    method: "replace",
+  },
+  tone: {
+    createPrompt: (text: string, targetTone?: string) => ({
+      text,
+      tone: targetTone || "professional",
+    }),
+    promptType: "tone",
     method: "replace",
   },
   translation: {
@@ -139,28 +149,56 @@ async function executeActionCompletionPrompt(
   try {
     const data: string = await $fetch("/api/ai", {
       method: "POST",
-      body: { prompt },
+      body: { prompt, promptType },
     });
 
     handleResponse(data, method);
   } catch (err) {
-    // Toast
     console.error(err);
   } finally {
     isLoading.value = false;
   }
 }
 
-async function executeAction(slug: ActionSlug, text: string): Promise<void> {
+async function executeAction(
+  slug: ActionSlug,
+  userText: string
+): Promise<void> {
   const config = actions[slug];
-  const prompt = config.createPrompt(text);
-  await executeActionCompletionPrompt(prompt, config.promptType, config.method);
+  await executeActionCompletionPrompt(
+    config.createPrompt(userText),
+    config.promptType,
+    config.method
+  );
 }
 
 async function handleAdjustment(slug: ActionSlug | string): Promise<void> {
   if (slug.startsWith("translation")) {
     const targetLanguage = slug.split("_")[1];
-    await handleTranslation(targetLanguage);
+    const config = actions.translation;
+    const prompt = config.createPrompt(
+      latestOutput.value?.text || "",
+      targetLanguage
+    );
+    await executeActionCompletionPrompt(
+      prompt,
+      config.promptType,
+      config.method
+    );
+    return;
+  }
+  if (slug.startsWith("tone")) {
+    const targetTone = slug.split("_")[1];
+    const config = actions.tone;
+    const prompt = config.createPrompt(
+      latestOutput.value?.text || "",
+      targetTone
+    );
+    await executeActionCompletionPrompt(
+      prompt,
+      config.promptType,
+      config.method
+    );
     return;
   }
   if (ACTION_SLUGS.includes(slug)) {
@@ -173,14 +211,6 @@ async function handleAdjustment(slug: ActionSlug | string): Promise<void> {
   }
 }
 
-async function handleTranslation(targetLanguage: string): Promise<void> {
-  const config = actions.translation;
-  const prompt = config.createPrompt(
-    latestOutput.value?.text || "",
-    targetLanguage
-  );
-  await executeActionCompletionPrompt(prompt, config.promptType, config.method);
-}
 const inputWrapperElement = ref<HTMLElement | null>(null);
 onMounted(async () => {
   if (inputWrapperElement.value) {
@@ -206,9 +236,9 @@ onMounted(async () => {
         v-else-if="latestOutput"
         :key="latestOutput.timestamp.toString()"
         :text="latestOutput.text"
-        :should-show-undo-action="outputList.length > 1"
-        :should-show-shortening-action="latestOutput.text.length > 40"
-        :should-show-enrichment-action="
+        :show-undo-action="outputList.length > 1"
+        :show-shortening-action="latestOutput.text.length > 40"
+        :show-enrichment-action="
           latestOutput.text.length < MAX_PROMPT_TOKEN_LENGTH
         "
         @on-insert-click="insertContentAndDeleteNode"
@@ -218,7 +248,7 @@ onMounted(async () => {
       <AiInput
         v-else
         @on-submit="
-          (val: string) => executeAction('simplyPromptRelay', val)
+          (val: string) => executeAction('chatCompletion', val)
         "
       />
     </div>
