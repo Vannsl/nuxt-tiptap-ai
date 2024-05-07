@@ -114,9 +114,6 @@ function insertContentAndDeleteNode() {
 }
 
 function handleResponse(text: string, method: ActionMethod = "replace") {
-  if (outputList.value.length >= 2) {
-    outputList.value.shift();
-  }
   let outputText: string = "";
 
   switch (method) {
