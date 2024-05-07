@@ -34,7 +34,7 @@ const exampleResponse = {
 
 export default defineEventHandler(async (event) => {
   const body: { prompt: { text: string } } = await readBody(event);
-  await sleep(4000);
+  await sleep(500);
 
   // const response = await openai.chat.completions.create({
   //   model: "gpt-3.5-turbo",

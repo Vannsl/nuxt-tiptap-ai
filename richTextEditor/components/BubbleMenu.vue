@@ -1,9 +1,37 @@
 <script setup lang="ts">
-import { BubbleMenu, Editor } from "@tiptap/vue-3";
+import { BubbleMenu, type Editor, isTextSelection } from "@tiptap/vue-3";
 
 defineProps<{
   editor: Editor;
 }>();
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function shouldShowHandler({ editor, view, from, to, state }: any) {
+  const { doc, selection } = state;
+  const { empty } = selection;
+
+  // Sometime check for `empty` is not enough.
+  // Doubleclick an empty paragraph returns a node size of 2.
+  // So we check also for an empty text size.
+  const isEmptyTextBlock =
+    !doc.textBetween(from, to).length && isTextSelection(state.selection);
+
+  // Don't show bubble menu if
+  // - there is no focus
+  // - the focused element is empty
+  // - the focused element is an element where the elements don't make sense
+  if (
+    !view.hasFocus() ||
+    empty ||
+    isEmptyTextBlock ||
+    editor.isActive("zavvyAi") ||
+    editor.isActive("actionTextAttachment") ||
+    editor.isActive("codeBlock")
+  )
+    return false;
+
+  return true;
+}
 </script>
 
 <template>
@@ -12,6 +40,7 @@ defineProps<{
       @click="editor.chain().focus().toggleBold().run()"
       :class="{ 'is-active': editor.isActive('bold') }"
       type="button"
+      :should-show="shouldShowHandler"
     >
       bold
     </button>

@@ -16,8 +16,13 @@ export const suggestions = () => {
         {
           title: "Ask AI",
           slug: "ai",
-          command: ({ editor, range }: { editor: Editor; range: Range }) => {
-            editor.chain().deleteRange(range).setAiChatCompletion().run();
+          command: ({ editor }: { editor: Editor }) => {
+            editor
+              .chain()
+              .deleteNode("paragraph")
+              .focus()
+              .setAiChatCompletion()
+              .run();
           },
         },
         {
@@ -143,7 +148,6 @@ export const suggestions = () => {
 
             return true;
           }
-
           return component.ref?.onKeyDown(props);
         },
 

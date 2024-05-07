@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
 import type { Editor } from "@tiptap/vue-3";
 
 type SuggestionItem = {
@@ -31,6 +30,7 @@ function upHandler() {
 function downHandler() {
   selectedIndex.value = (selectedIndex.value + 1) % props.items.length;
 }
+
 function onKeyDown({ event }: { event: KeyboardEvent }) {
   if (event.key === "ArrowUp") {
     upHandler();
@@ -116,13 +116,13 @@ function selectItem(index: number) {
 }
 
 ul {
+  background: white;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
 .field {
-  background: white;
   display: flex;
   width: 100%;
   align-items: center;

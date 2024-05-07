@@ -27,5 +27,9 @@
     "nuxt": "^3.11.2",
     "sanitize-html": "^2.13.0",
     "tippy.js": "^6.3.7"
+  },
+  "devDependencies": {
+    "@headlessui/vue": "^1.7.21",
+    "@heroicons/vue": "^2.1.3"
   }
 }
