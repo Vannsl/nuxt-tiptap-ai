@@ -18,12 +18,6 @@ type AiOptions = {
 export const AiExtension = Node.create<AiOptions>({
   name: "ai",
 
-  addOptions() {
-    return {
-      HTMLAttributes: {},
-    };
-  },
-
   group() {
     return "block";
   },

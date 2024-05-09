@@ -17,6 +17,7 @@ function shouldShowHandler({ editor, view, from, to, state }: any) {
   const isEmptyTextBlock =
     !doc.textBetween(from, to).length && isTextSelection(state.selection);
 
+
   // Don't show bubble menu if
   // - there is no focus
   // - the focused element is empty
