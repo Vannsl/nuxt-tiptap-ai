@@ -56,7 +56,7 @@ export function initializeExtensions() {
     );
   }
 
-  const customExtensions = [AiExtension.configure()];
+  const customExtensions = [AiExtension];
 
   return [...tiptapExtensions, ...bubbleMenu, ...customExtensions];
 }

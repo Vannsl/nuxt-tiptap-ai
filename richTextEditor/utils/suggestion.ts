@@ -29,7 +29,7 @@ export const suggestions = () => {
           title: "Text",
           slug: "paragraph",
           command: ({ editor, range }: { editor: Editor; range: Range }) => {
-            editor.chain().focus().setParagraph().deleteRange(range).run();
+            editor.chain().deleteRange(range).setParagraph().run();
           },
         },
         {
@@ -38,7 +38,6 @@ export const suggestions = () => {
           command: ({ editor, range }: { editor: Editor; range: Range }) => {
             editor
               .chain()
-              .focus()
               .deleteRange(range)
               .setNode("heading", { level: 1 })
               .run();
@@ -50,7 +49,6 @@ export const suggestions = () => {
           command: ({ editor, range }: { editor: Editor; range: Range }) => {
             editor
               .chain()
-              .focus()
               .deleteRange(range)
               .setNode("heading", { level: 2 })
               .run();
@@ -62,7 +60,6 @@ export const suggestions = () => {
           command: ({ editor, range }: { editor: Editor; range: Range }) => {
             editor
               .chain()
-              .focus()
               .deleteRange(range)
               .setNode("heading", { level: 3 })
               .run();
@@ -72,28 +69,28 @@ export const suggestions = () => {
           title: "Bulleted List",
           slug: "ul",
           command: ({ editor, range }: { editor: Editor; range: Range }) => {
-            editor.chain().focus().deleteRange(range).toggleBulletList().run();
+            editor.chain().deleteRange(range).toggleBulletList().run();
           },
         },
         {
           title: "Ordered List",
           slug: "ol",
           command: ({ editor, range }: { editor: Editor; range: Range }) => {
-            editor.chain().focus().deleteRange(range).toggleOrderedList().run();
+            editor.chain().deleteRange(range).toggleOrderedList().run();
           },
         },
         {
           title: "Code Block",
           slug: "code",
           command: ({ editor, range }: { editor: Editor; range: Range }) => {
-            editor.chain().focus().deleteRange(range).toggleCodeBlock().run();
+            editor.chain().deleteRange(range).toggleCodeBlock().run();
           },
         },
         {
           title: "Blockquote",
           slug: "blockquote",
           command: ({ editor, range }: { editor: Editor; range: Range }) => {
-            editor.chain().focus().deleteRange(range).toggleBlockquote().run();
+            editor.chain().deleteRange(range).toggleBlockquote().run();
           },
         }
       );

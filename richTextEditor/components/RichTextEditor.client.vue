@@ -8,11 +8,8 @@ const model = defineModel<string>({ required: true });
 const editor = useEditor({
   content: model.value,
   extensions: initializeExtensions(),
-  onUpdate: () => {
-    if (typeof editor.value === "undefined") {
-      return;
-    }
-    model.value = editor.value.getHTML();
+  onUpdate: ({ editor }) => {
+    console.log(editor.getHTML());
   },
 });
 

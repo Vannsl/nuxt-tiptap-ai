@@ -33,9 +33,6 @@ export const AiExtension = Node.create<AiOptions>({
       [attributeClientOnly]: {
         default: "true",
       },
-      prompt: {
-        default: "chatCompletion",
-      },
     };
   },
 
@@ -58,9 +55,6 @@ export const AiExtension = Node.create<AiOptions>({
         ({ commands }) =>
           commands.insertContent({
             type: this.name,
-            attrs: {
-              prompt: "chatCompletion",
-            },
           }),
     };
   },
